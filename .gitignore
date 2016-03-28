@@ -1,0 +1,9 @@
+### intellij ###
+.idea/
+out/
+
+*.iml
+
+### plugin binary ###
+stylint-plugin.jar
+stylint-plugin.zip
