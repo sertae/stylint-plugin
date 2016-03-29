@@ -1,0 +1,47 @@
+<idea-plugin url="https://github.com/sertae/stylint-plugin">
+  <id>com.stylint</id>
+  <name>Stylint</name>
+  <version>0.1.0</version>
+  <category>HTML/JavaScript Development</category>
+  <vendor email="wojciech.czerniak@sertae.com" url="http://sertae.com">Sertae</vendor>
+
+  <description>Stylint Intellij integration. Support displaying stylint warnings as Intellij inspections.</description>
+
+  <change-notes><![CDATA[
+       <p>0.1.0 First experimental version.</p>
+    ]]></change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="145"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html on how to target different products -->
+  <depends>com.intellij.modules.lang</depends>
+  <depends>org.jetbrains.plugins.stylus</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <projectService serviceImplementation="com.stylint.settings.Settings"/>
+    <projectConfigurable instance="com.stylint.settings.StylintSettingsPage"/>
+    <localInspection language="Stylus" groupPath="Stylus" shortName="StylintInspection"
+                     enabledByDefault="true" level="ERROR"
+                     bundle="com.stylint.StylintBundle"
+                     implementationClass="com.stylint.StylintInspection"
+                     displayName="Stylint" groupKey="stylint.inspection.group.name"/>
+    <externalAnnotator language="Stylus" implementationClass="com.stylint.StylintExternalAnnotator"/>
+
+    <!-- annotate .stylintrc -->
+    <projectService serviceImplementation="com.stylint.config.StylintConfigFileChangeTracker"/>
+    <fileTypeFactory implementation="com.stylint.config.StylintConfigFileTypeFactory"/>
+  </extensions>
+
+  <project-components>
+    <!-- Add your project components here -->
+    <component>
+      <implementation-class>com.stylint.StylintProjectComponent</implementation-class>
+    </component>
+  </project-components>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>
