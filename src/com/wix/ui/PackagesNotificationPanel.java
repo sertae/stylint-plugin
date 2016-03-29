@@ -8,13 +8,11 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.HyperlinkAdapter;
 import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.components.JBLabel;
-import com.intellij.util.Function;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.UIUtil;
 import com.wix.settings.ValidationInfo;
 import com.wix.settings.Validator;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -23,13 +21,10 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author yole
- */
 public class PackagesNotificationPanel {
     private final JEditorPane myEditorPane = new MyNotificationPane();
     private final Project myProject;
-    private final Map<String, Runnable> myLinkHandlers = new HashMap<String, Runnable>();
+    private final Map<String, Runnable> myLinkHandlers = new HashMap<>();
     private String myErrorTitle;
     private String myErrorDescription;
 
@@ -51,12 +46,8 @@ public class PackagesNotificationPanel {
         });
     }
 
-    public static void showError(@NotNull Project project, @NotNull String title, @NotNull String description) {
+    private static void showError(@NotNull Project project, @NotNull String title, @NotNull String description) {
         doShowError(title, description, new DialogBuilder(project));
-    }
-
-    public static void showError(@NotNull Component owner, @NotNull String title, @NotNull String description) {
-        doShowError(title, description, new DialogBuilder(owner));
     }
 
     private static void doShowError(String title, String description, DialogBuilder builder) {
@@ -78,23 +69,11 @@ public class PackagesNotificationPanel {
         builder.show();
     }
 
-    public void showResult(String packageName, @Nullable String errorDescription) {
-        if (StringUtil.isEmpty(errorDescription)) {
-            showSuccess("Package successfully installed.");
-        } else {
-            String title = "Install packages failed";
-            final String firstLine = title + ": Error occurred when installing package " + packageName + ". ";
-            showError(firstLine + "<a href=\"xxx\">Details...</a>",
-                    title,
-                    firstLine + errorDescription);
-        }
-    }
-
-    public void addLinkHandler(String key, Runnable handler) {
+    private void addLinkHandler(String key, Runnable handler) {
         myLinkHandlers.put(key, handler);
     }
 
-    public void removeAllLinkHandlers() {
+    private void removeAllLinkHandlers() {
         myLinkHandlers.clear();
     }
 
@@ -102,7 +81,7 @@ public class PackagesNotificationPanel {
         return myEditorPane;
     }
 
-    public void showSuccess(String text) {
+    private void showSuccess(String text) {
         showContent(text, MessageType.INFO.getPopupBackground());
     }
 
@@ -116,22 +95,14 @@ public class PackagesNotificationPanel {
         myErrorDescription = null;
     }
 
-    public void showError(String text, final String detailsTitle, final String detailsDescription) {
+    private void showError(String text, final String detailsTitle, final String detailsDescription) {
         showContent(text, MessageType.ERROR.getPopupBackground());
         myErrorTitle = detailsTitle;
         myErrorDescription = detailsDescription;
     }
 
-    public void showWarning(String text) {
-        showContent(text, MessageType.WARNING.getPopupBackground());
-    }
-
-    public void hide() {
+    private void hide() {
         myEditorPane.setVisible(false);
-    }
-
-    public boolean hasLinkHandler(String key) {
-        return myLinkHandlers.containsKey(key);
     }
 
     private static class MyNotificationPane extends JEditorPane {
@@ -144,11 +115,6 @@ public class PackagesNotificationPanel {
             return dimension;
         }
     }
-
-    public void removeLinkHandler(String key) {
-        myLinkHandlers.remove(key);
-    }
-
 
     public void processErrors(@NotNull Validator validator) {
         if (validator.hasErrors()) {
@@ -163,12 +129,8 @@ public class PackagesNotificationPanel {
         }
     }
 
-    public void showErrors(@NotNull java.util.List<ValidationInfo> errors) {
-        java.util.List<String> errorHtmlDescriptions = ContainerUtil.map(errors, new Function<ValidationInfo, String>() {
-            public String fun(ValidationInfo info) {
-                return info.getErrorHtmlDescription();
-            }
-        });
+    private void showErrors(@NotNull java.util.List<ValidationInfo> errors) {
+        java.util.List<String> errorHtmlDescriptions = ContainerUtil.map(errors, ValidationInfo::getErrorHtmlDescription);
         String styleTag = UIUtil.getCssFontDeclaration(UIUtil.getLabelFont());
         String html = "<html>" + styleTag + "<body><div style='padding-left:4px;'>" + StringUtil.join(errorHtmlDescriptions, "<div style='padding-top:2px;'/>") + "</div></body></html>";
 
@@ -176,11 +138,7 @@ public class PackagesNotificationPanel {
             String linkText = error.getLinkText();
             final JTextComponent component = error.getTextComponent();
             if (linkText != null && component != null) {
-                this.addLinkHandler(linkText, new Runnable() {
-                    public void run() {
-                        component.requestFocus();
-                    }
-                });
+                this.addLinkHandler(linkText, component::requestFocus);
             }
         }
         this.showError(html, null, null);

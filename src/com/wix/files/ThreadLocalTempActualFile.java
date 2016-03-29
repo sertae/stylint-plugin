@@ -1,21 +1,18 @@
-package com.wix;
+package com.wix.files;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
-import com.wix.files.RelativeFile;
 import com.wix.utils.FileUtils;
+import com.wix.utils.Util;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Lint target file thread local storage
- */
 public class ThreadLocalTempActualFile extends ThreadLocal<RelativeFile> {
     private final String baseName;
     private final String extension;
@@ -23,12 +20,9 @@ public class ThreadLocalTempActualFile extends ThreadLocal<RelativeFile> {
     private final Project project;
     private static final Logger LOG = Logger.getInstance(Util.LOG_ID);
 
-    public boolean isTemp;
-
-    private static final String STYLINT_TMP = "_stylint_tmp";
     private static final String TEMP_DIR_NAME = "intellij-stylint-temp";
 
-    public ThreadLocalTempActualFile(@NotNull PsiFile psiFile) {
+    ThreadLocalTempActualFile(@NotNull PsiFile psiFile) {
         this.file = psiFile.getVirtualFile();
         this.project = psiFile.getProject();
         this.baseName = file.getNameWithoutExtension();
@@ -36,10 +30,9 @@ public class ThreadLocalTempActualFile extends ThreadLocal<RelativeFile> {
     }
 
     @Nullable
-    public RelativeFile getOrCreateFile() {
+    RelativeFile getOrCreateFile() {
         RelativeFile path = super.get();
         if (path != null) {
-//            File file = new File(path);
             if (path.file.isFile()) {
                 return path;
             }
@@ -53,7 +46,7 @@ public class ThreadLocalTempActualFile extends ThreadLocal<RelativeFile> {
     }
 
     @Nullable
-    public static File getOrCreateTempDir() {
+    private static File getOrCreateTempDir() {
         File tmpDir = new File(FileUtil.getTempDirectory());
         File dir = new File(tmpDir, TEMP_DIR_NAME);
         if (dir.isDirectory() || dir.mkdirs()) {
@@ -85,18 +78,6 @@ public class ThreadLocalTempActualFile extends ThreadLocal<RelativeFile> {
             return;
         }
         copyJSCS(temp.getParentFile(), currentFile.getParent());
-//        if (jscs != null) {
-//            //move to temp
-//            FileUtil.copyDir(new File(currentFile.getParent().getPath()), temp, new FileFilter() {
-//                @Override
-//                public boolean accept(File file) {
-//                    return file.isFile() && file.getName().equals(".jscsrc");
-//                }
-//            });
-//            System.out.println();
-//        }
-//        FileUtil.createParentDirs()
-        //move file to temp
     }
 
     @Nullable
@@ -117,7 +98,6 @@ public class ThreadLocalTempActualFile extends ThreadLocal<RelativeFile> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        File file = new File(dir, this.baseName + this.extension);
         RelativeFile relativeFile = new RelativeFile(dir, file);
         boolean created = false;
         if (!file.exists()) {

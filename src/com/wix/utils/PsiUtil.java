@@ -5,20 +5,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Psi Utils
- * Created by idok on 6/26/14.
- */
 public final class PsiUtil {
     private PsiUtil() {
     }
 
-    /**
-     * copied from com.intellij.psi.util.PsiUtilCore to fix compatibility issue with webstorm
-     * @param file psi file
-     * @param offset offset to search
-     * @return psi element in the offset
-     */
     @NotNull
     public static PsiElement getElementAtOffset(@NotNull PsiFile file, int offset) {
         PsiElement elt = file.findElementAt(offset);
@@ -49,18 +39,5 @@ public final class PsiUtil {
             offset++;
         }
         return offset;
-    }
-
-    public static int positionToOffset(@NotNull Document document, int line, int column, int tabSize) {
-        int errorLine = line - 1;
-        int errorColumn = column /*- 1*/;
-
-        if (errorLine < 0 || errorLine >= document.getLineCount()) {
-            return -1;
-        }
-        int lineEndOffset = document.getLineEndOffset(errorLine);
-        int lineStartOffset = document.getLineStartOffset(errorLine);
-
-        return calcErrorStartOffsetInDocument(document, lineStartOffset, lineEndOffset, errorColumn, tabSize);
     }
 }

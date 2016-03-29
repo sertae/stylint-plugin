@@ -6,9 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
-/**
- * Process target file, either the real file or a temp file
- */
 public abstract class BaseActualFile {
     BaseActualFile(PsiFile psiFile, File file) {
         this.file = file;

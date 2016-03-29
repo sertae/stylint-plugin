@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Validator {
 
-    private final List<ValidationInfo> errs = new ArrayList<ValidationInfo>();
+    private final List<ValidationInfo> errs = new ArrayList<>();
 
     public boolean hasErrors() {
         return !errs.isEmpty();

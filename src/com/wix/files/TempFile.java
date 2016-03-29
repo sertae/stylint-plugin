@@ -2,7 +2,7 @@ package com.wix.files;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiFile;
-import com.wix.Util;
+import com.wix.utils.Util;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -19,10 +19,6 @@ public class TempFile extends BaseActualFile {
     @Override
     public File getActualFile() {
         return tempFile.file;
-    }
-
-    public RelativeFile getTempFile() {
-        return tempFile;
     }
 
     @Override

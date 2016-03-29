@@ -109,7 +109,7 @@ public final class NodeFinder {
     }
 
     @NotNull
-    public static List<File> listNodeInterpretersFromNvm(String exeFileName) {
+    private static List<File> listNodeInterpretersFromNvm(String exeFileName) {
         String nvmDirPath = EnvironmentUtil.getValue("NVM_DIR");
         if (StringUtil.isEmpty(nvmDirPath)) {
             return Collections.emptyList();
@@ -121,38 +121,32 @@ public final class NodeFinder {
         return Collections.emptyList();
     }
 
-    public static List<File> listNodeInterpretersFromHomeBrew(String exeFileName) {
+    private static List<File> listNodeInterpretersFromHomeBrew(String exeFileName) {
         return listNodeInterpretersFromVersionDir(new File("/usr/local/Cellar/node"), exeFileName);
     }
 
-    public static List<File> listNodeInterpretersFromVersionDir(@NotNull File parentDir, String exeFileName) {
+    private static List<File> listNodeInterpretersFromVersionDir(@NotNull File parentDir, String exeFileName) {
         if (!parentDir.isDirectory()) {
             return Collections.emptyList();
         }
-        File[] dirs = parentDir.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return NodeFinder.structureNodeVersionStr(name) != null;
-            }
-        });
+        File[] dirs = parentDir.listFiles((dir, name) -> NodeFinder.structureNodeVersionStr(name) != null);
         if (dirs == null || dirs.length == 0) {
             return Collections.emptyList();
         }
-        Arrays.sort(dirs, new Comparator<File>() {
-            public int compare(File dir1, File dir2) {
-                int[] v1 = NodeFinder.structureNodeVersionStr(dir1.getName());
-                int[] v2 = NodeFinder.structureNodeVersionStr(dir2.getName());
-                if (v1 != null && v2 != null) {
-                    for (int i = 0; i < v1.length; i++) {
-                        if (i < v2.length) {
-                            int cmp = v2[i] - v1[i];
-                            if (cmp != 0) {
-                                return cmp;
-                            }
+        Arrays.sort(dirs, (dir1, dir2) -> {
+            int[] v1 = NodeFinder.structureNodeVersionStr(dir1.getName());
+            int[] v2 = NodeFinder.structureNodeVersionStr(dir2.getName());
+            if (v1 != null && v2 != null) {
+                for (int i = 0; i < v1.length; i++) {
+                    if (i < v2.length) {
+                        int cmp = v2[i] - v1[i];
+                        if (cmp != 0) {
+                            return cmp;
                         }
                     }
                 }
-                return dir1.getName().compareTo(dir2.getName());
             }
+            return dir1.getName().compareTo(dir2.getName());
         });
         List<File> interpreters = ContainerUtil.newArrayListWithCapacity(dirs.length);
         for (File dir : dirs) {
@@ -191,12 +185,6 @@ public final class NodeFinder {
 //        return null;
 //    }
 
-    /**
-     * search for projectRoot/node_modules/.bin/exe
-     * @param projectRoot node modules root
-     * @param exe exe to find
-     * @return file
-     */
     public static File findExeInProjectBin(File projectRoot, String exe) {
         File file = NodeFinder.resolvePath(projectRoot, NodeFinder.NODE_MODULES, ".bin", exe);
         if (file.exists()) {
