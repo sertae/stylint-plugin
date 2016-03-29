@@ -57,4 +57,5 @@ Thanks @idok for two great plugins [scss-lint-plugin](https://github.com/idok/sc
 
 ## License
 
-MIT (c) Wojciech Czerniak
+MIT &copy; 2016 Wojciech Czerniak<br>
+MIT &copy; 2014 Idok
