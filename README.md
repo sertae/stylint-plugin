@@ -7,6 +7,7 @@ This plugin provides integration for [Stylint](https://github.com/rossPatton/sty
 ## How to use
 ### Requirements
 
+- Java JDK = 8u74
 - Intellij branch 145: `IntelliJ IDEA 2016.1, WebStorm 2016.1, PhpStorm 2016.1`
 - `stylint` >= 1.3.7
     - PR#265 for column number and displaying error in the right place
@@ -43,6 +44,12 @@ Configuration:
 Inspection:
 
 ![Stylint-plugin rule example](docs/highlight.png)
+
+## Changelog
+
+#### [0.1.0] - 2016-03-29
+
+First public version of styling-plugin
 
 ## Credit
 
