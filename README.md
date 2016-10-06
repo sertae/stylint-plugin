@@ -9,11 +9,8 @@ This plugin provides integration for [Stylint](https://github.com/rossPatton/sty
 
 - Java JDK = 8u74
 - Intellij branch 145: `IntelliJ IDEA 2016.1, WebStorm 2016.1, PhpStorm 2016.1`
-- `stylint` >= 1.3.7
-    - PR#265 for column number and displaying error in the right place
-    - PR#264 for rule name display
-    - Until PRs are merged you can use my dev integration branch: [#sertae-stylint](https://github.com/sertae/stylint/tree/sertae-stylint)
-- `stylint-json-reporter`
+- `stylint` >= 1.5.0
+- `stylint-json-reporter` >= 0.3.1
 
 ### Install required node modules
 
@@ -30,18 +27,18 @@ Download  JAR file from [releases](https://github.com/sertae/stylint-plugin/rele
 ### Configure plugin settings page
 To get started, you need to set the Stylint plugin settings:
 
-* Go to preferences, Stylint plugin page and check the Enable plugin.
+* Go to preferences, Stylint plugin page and check `Enable` plugin.
 * Select the path to the Stylint executable.
 * Set the `.stylintrc` file, or Stylint will use the default settings.
 * By default, Stylint plugin annotate the editor with warning or error based on the Stylint configuration, you can check the 'Treat all stylint issues as warnings' checkbox to display all issues from stylint as warnings.
 * Stylint plugin will also try to highlight error in the right place. If you prefer more verbose display you can check the 'Highlight whole line' setting. Otherwise Stylint plugin will highlight whole lines only for those errors where more precise display was not possible.
-* Show column number setting is mostly for debugging, but maybe someone find it useful.
+* Show column number setting is mostly for debugging, but maybe someone will find it useful.
 
-Configuration:
+Configuration window:
 
 ![Stylint-plugin config](docs/settings.png)
 
-Inspection:
+Inspection example:
 
 ![Stylint-plugin rule example](docs/highlight.png)
 
