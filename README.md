@@ -7,10 +7,11 @@ This plugin provides integration for [Stylint](https://github.com/rossPatton/sty
 ## How to use
 ### Requirements
 
-- Java JDK = 8u74
 - Intellij branch 145: `IntelliJ IDEA 2016.1, WebStorm 2016.1, PhpStorm 2016.1`
 - `stylint` >= 1.5.0
 - `stylint-json-reporter` >= 0.3.1
+
+Compiled with Java 1.8
 
 ### Install required node modules
 
@@ -22,7 +23,11 @@ npm install -g stylint stylint-json-reporter
 
 ### Install plugin
 
-Download  JAR file from [releases](https://github.com/sertae/stylint-plugin/releases) section. Then follow JetBrains [Installing Plugin from Disk](https://www.jetbrains.com/help/webstorm/2016.1/installing-plugin-from-disk.html?origin=old_help) instructions. Plugin is not yet available in JetBrains plugins repository. It's not tested enough.
+#### Jetbrains Plugin Repository
+Find [stylint-plugin](https://plugins.jetbrains.com/plugin/9162) in your IDE plugin repository.
+
+#### Manual
+Download  JAR file from [releases](https://github.com/sertae/stylint-plugin/releases) section. Then follow JetBrains [Installing Plugin from Disk](https://www.jetbrains.com/help/webstorm/2016.1/installing-plugin-from-disk.html?origin=old_help) instructions.
 
 ### Configure plugin settings page
 To get started, you need to set the Stylint plugin settings:
@@ -44,9 +49,13 @@ Inspection example:
 
 ## Changelog
 
+#### [0.2.0] - 2016-10-07
+
+Update description. Prepare plugin for public use.
+
 #### [0.1.0] - 2016-03-29
 
-First public version of styling-plugin
+First public version of stylint-plugin
 
 ## Credit
 

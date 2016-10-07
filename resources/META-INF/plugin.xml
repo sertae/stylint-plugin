@@ -1,47 +1,74 @@
 <idea-plugin url="https://github.com/sertae/stylint-plugin">
-  <id>com.stylint</id>
-  <name>Stylint</name>
-  <version>0.1.0</version>
-  <category>HTML/JavaScript Development</category>
-  <vendor email="wojciech.czerniak@sertae.com" url="http://sertae.com">Sertae</vendor>
+    <id>com.stylint</id>
+    <name>Stylint</name>
+    <version>0.2.0</version>
+    <category>Web</category>
+    <vendor email="wojciech.czerniak@sertae.com" url="http://sertae.com">Sertae</vendor>
 
-  <description>Stylint Intellij integration. Support displaying stylint warnings as Intellij inspections.</description>
+    <description><![CDATA[
+        <p><a href="https://github.com/SimenB/stylint">Stylint</a> Intellij integration. Support displaying Stylint warnings as Intellij inspections. More: <a href="https://github.com/sertae/stylint-plugin">Documentation</a> | <a href="https://github.com/sertae/stylint-plugin/issues">Issues</a><br><br></p>
+        <p>
+            <b>Installation:</b><br>
+            Install <a href="https://github.com/SimenB/stylint">stylint</a> and <a href="https://github.com/sertae/stylint-json-reporter">stylint-json-reporter</a><br>
+            <code>npm install -g stylint stylint-json-reporter</code><br><br>
+        </p>
+        <p>
+            <b>Configuration:</b>
+            <ul>
+                <li>Go to preferences, Stylint plugin page and check `Enable` plugin.</li>
+                <li>Select the path to the Stylint executable.</li>
+                <li>Set the `.stylintrc` file, or Stylint will use the default settings.</li>
+                <li>By default, Stylint plugin annotate the editor with warning or error based on the Stylint configuration, you can check the 'Treat all stylint issues as warnings' checkbox to display all issues from stylint as warnings.</li>
+                <li>Stylint plugin will also try to highlight error in the right place. If you prefer more verbose display you can check the 'Highlight whole line' setting. Otherwise Stylint plugin will highlight whole lines only for those errors where more precise display was not possible.</li>
+                <li>Show column number setting is mostly for debugging, but maybe someone will find it useful.</li>
+            </ul>
+        </p>
+        <p>
+            <b>Requirements:</b>
+            <ul>
+                <li>Intellij branch 145: IntelliJ IDEA 2016.1, WebStorm 2016.1, PhpStorm 2016.1</li>
+                <li>stylint >= 1.5.0</li>
+                <li>stylint-json-reporter >= 0.3.1</li>
+            </ul>
+        </p>
+    ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
+       <p>0.2.0 Update description. Prepare plugin for public use.</p>
        <p>0.1.0 First experimental version.</p>
     ]]></change-notes>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="145"/>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="145"/>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html on how to target different products -->
-  <depends>com.intellij.modules.lang</depends>
-  <depends>org.jetbrains.plugins.stylus</depends>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
+    <depends>org.jetbrains.plugins.stylus</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <projectService serviceImplementation="com.stylint.settings.Settings"/>
-    <projectConfigurable instance="com.stylint.settings.StylintSettingsPage"/>
-    <localInspection language="Stylus" groupPath="Stylus" shortName="StylintInspection"
-                     enabledByDefault="true" level="ERROR"
-                     bundle="com.stylint.StylintBundle"
-                     implementationClass="com.stylint.StylintInspection"
-                     displayName="Stylint" groupKey="stylint.inspection.group.name"/>
-    <externalAnnotator language="Stylus" implementationClass="com.stylint.StylintExternalAnnotator"/>
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="com.stylint.settings.Settings"/>
+        <projectConfigurable instance="com.stylint.settings.StylintSettingsPage"/>
+        <localInspection language="Stylus" groupPath="Stylus" shortName="StylintInspection"
+                         enabledByDefault="true" level="ERROR"
+                         bundle="com.stylint.StylintBundle"
+                         implementationClass="com.stylint.StylintInspection"
+                         displayName="Stylint" groupKey="stylint.inspection.group.name"/>
+        <externalAnnotator language="Stylus" implementationClass="com.stylint.StylintExternalAnnotator"/>
 
-    <!-- annotate .stylintrc -->
-    <projectService serviceImplementation="com.stylint.config.StylintConfigFileChangeTracker"/>
-    <fileTypeFactory implementation="com.stylint.config.StylintConfigFileTypeFactory"/>
-  </extensions>
+        <!-- annotate .stylintrc -->
+        <projectService serviceImplementation="com.stylint.config.StylintConfigFileChangeTracker"/>
+        <fileTypeFactory implementation="com.stylint.config.StylintConfigFileTypeFactory"/>
+    </extensions>
 
-  <project-components>
-    <!-- Add your project components here -->
-    <component>
-      <implementation-class>com.stylint.StylintProjectComponent</implementation-class>
-    </component>
-  </project-components>
+    <project-components>
+        <!-- Add your project components here -->
+        <component>
+            <implementation-class>com.stylint.StylintProjectComponent</implementation-class>
+        </component>
+    </project-components>
 
-  <actions>
-    <!-- Add your actions here -->
-  </actions>
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
 
 </idea-plugin>
